@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kegiatan Dinamis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Jadwal Kegiatan</h1>
+            <p>Simpan dan atur jadwal Anda dengan mudah!</p>
+        </header>
+        <main>
+            <section class="form-section">
+                <h2>Tambah Kegiatan</h2>
+                <form id="schedule-form">
+                    <label for="time">Waktu:</label>
+                    <input type="text" id="time" placeholder="Contoh: 08:00 - 09:00" required>
+
+                    <label for="activity">Kegiatan/Tugas:</label>
+                    <input type="text" id="activity" placeholder="Nama kegiatan atau tugas" required>
+
+                    <label for="deadline">Deadline:</label>
+                    <input type="date" id="deadline">
+
+                    <label for="priority">Prioritas:</label>
+                    <select id="priority">
+                        <option value="high">Tinggi</option>
+                        <option value="medium">Sedang</option>
+                        <option value="low">Rendah</option>
+                    </select>
+
+                    <label for="notes">Catatan:</label>
+                    <textarea id="notes" placeholder="Tambahkan catatan jika perlu"></textarea>
+
+                    <button type="submit">Tambah ke Jadwal</button>
+                </form>
+            </section>
+            <section class="table-section">
+                <h2>Jadwal Anda</h2>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Kegiatan/Tugas</th>
+                            <th>Deadline</th>
+                            <th>Prioritas</th>
+                            <th>Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-body">
+                        <!-- Jadwal akan ditambahkan di sini -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+        <footer>
+            <p>By Nabil Oktora Ramadhan</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
