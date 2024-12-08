@@ -61,7 +61,6 @@ function addSchedule(event) {
     form.reset();
 }
 
-
 // Event listeners
 document.addEventListener("DOMContentLoaded", loadSchedule);
 form.addEventListener("submit", addSchedule);
