@@ -57,64 +57,10 @@ function addSchedule(event) {
     // Tambahkan ke tabel
     addRowToTable(newActivity);
 
-    // Kirim data ke GitHub
-    sendToGitHub(newActivity);
-
     // Reset form
     form.reset();
 }
 
-// Fungsi untuk mengirim data ke GitHub
-async function sendToGitHub(activity) {
-    const repoOwner = "Knz17"; // Ganti dengan nama pengguna GitHub
-    const repoName = "jadwa2"; // Ganti dengan nama repository
-    const token = "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"; // Ganti dengan token akses GitHub Anda
-
-    const filePath = "data.json"; // Nama file yang akan digunakan untuk menyimpan data
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-    // Ambil data yang ada di GitHub
-    const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github.v3+json"
-        }
-    });
-
-    let existingData = [];
-    if (response.ok) {
-        const fileData = await response.json();
-        const decodedContent = atob(fileData.content);
-        existingData = JSON.parse(decodedContent);
-    }
-
-    // Tambahkan aktivitas baru ke data yang ada
-    existingData.push(activity);
-
-    // Encode data ke base64 untuk mengunggah ke GitHub
-    const encodedData = btoa(JSON.stringify(existingData));
-
-    // Update file di GitHub
-    const updateResponse = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github.v3+json"
-        },
-        body: JSON.stringify({
-            message: "Update schedule data",
-            content: encodedData,
-            sha: response.ok ? response.json().sha : undefined
-        })
-    });
-
-    if (updateResponse.ok) {
-        console.log("Data berhasil diperbarui di GitHub");
-    } else {
-        console.error("Terjadi kesalahan saat memperbarui data di GitHub");
-    }
-}
 
 // Event listeners
 document.addEventListener("DOMContentLoaded", loadSchedule);
