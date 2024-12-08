@@ -66,7 +66,7 @@ function addSchedule(event) {
 
 // Fungsi untuk mengirim data ke GitHub
 async function sendToGitHub(activity) {
-    const repoOwner = "knz17"; // Ganti dengan nama pengguna GitHub
+    const repoOwner = "Knz17"; // Ganti dengan nama pengguna GitHub
     const repoName = "data.json"; // Ganti dengan nama repository
     const token = "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"; // Ganti dengan token akses GitHub Anda
 
