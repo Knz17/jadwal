@@ -67,8 +67,8 @@ function addSchedule(event) {
 // Fungsi untuk mengirim data ke GitHub
 async function sendToGitHub(activity) {
     const repoOwner = "Knz17"; // Ganti dengan nama pengguna GitHub
-    const repoName = "data.json"; // Ganti dengan nama repository
-    const token = "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"; // Ganti dengan token akses GitHub Anda
+    const repoName = "jadwa2"; // Ganti dengan nama repository
+    const token = "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"; // Ganti dengan token akses GitHub Anda
 
     const filePath = "data.json"; // Nama file yang akan digunakan untuk menyimpan data
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
