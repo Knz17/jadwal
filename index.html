@@ -1,71 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Kegiatan Dinamis</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kasir Barbershop Gunting</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Jadwal Kegiatan</h1>
-            <p>Simpan dan atur jadwal Anda dengan mudah!</p>
-        </header>
-        <main>
-            <section class="form-section">
-                <h2>Tambah Kegiatan</h2>
-                <form id="schedule-form">
-    
+  <div class="container">
+    <h1>Kasir Barbershop</h1>
 
-                    <label for="start-time">Waktu Mulai:</label>
-                    <input type="time" id="start-time" required>
-                
-                    <label for="end-time">Waktu Selesai:</label>
-                    <input type="time" id="end-time" required>
-                
+    <form id="kasirForm">
+      <label for="namaKasir">Nama Kasir:</label>
+      <input type="text" id="namaKasir" required placeholder="Siapa yang jaga?" />
 
-                    <label for="activity">Kegiatan/Tugas:</label>
-                    <input type="text" id="activity" placeholder="Nama kegiatan atau tugas" required>
+      <label for="namaPelanggan">Nama Pelanggan:</label>
+      <input type="text" id="namaPelanggan" required />
 
-                    <label for="deadline">Deadline:</label>
-                    <input type="date" id="deadline">
+      <label for="layanan">Layanan:</label>
+      <select id="layanan" required>
+        <option value="Potong Rambut">Potong Rambut - Rp30.000</option>
+        <option value="Cukur Jenggot">Cukur Jenggot - Rp15.000</option>
+        <option value="Cat Rambut">Cat Rambut - Rp70.000</option>
+        <option value="Hair Spa">Hair Spa - Rp50.000</option>
+      </select>
 
-                    <label for="priority">Prioritas:</label>
-                    <select id="priority">
-                        <option value="high">Tinggi</option>
-                        <option value="medium">Sedang</option>
-                        <option value="low">Rendah</option>
-                    </select>
+      <label for="diskon">Diskon (%):</label>
+      <input type="number" id="diskon" value="0" min="0" max="100" />
 
-                    <label for="notes">Catatan:</label>
-                    <textarea id="notes" placeholder="Tambahkan catatan jika perlu"></textarea>
+      <label for="nomorWA">No. WhatsApp Pelanggan:</label>
+      <input type="tel" id="nomorWA" placeholder="cth: 6281234567890" required />
 
-                    <button type="submit">Tambah ke Jadwal</button>
-                </form>
-            </section>
-            <section class="table-section">
-                <h2>Jadwal Anda</h2>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Kegiatan/Tugas</th>
-                            <th>Deadline</th>
-                            <th>Prioritas</th>
-                            <th>Catatan</th>
-                        </tr>
-                    </thead>
-                    <tbody id="schedule-body">
-                        <!-- Jadwal akan ditambahkan di sini -->
-                    </tbody>
-                </table>
-            </section>
-        </main>
-        <footer>
-            <p>By Nabil Oktora Ramadhan</p>
-        </footer>
-    </div>
-    <script src="script.js"></script>
+      <button type="submit">Kirim Struk via WA</button>
+    </form>
+
+    <div id="struk" class="strukBox"></div>
+    <div id="rekap" class="rekapBox"></div>
+
+    <button id="exportBtn" class="exportBtn">Download Rekapan Excel</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

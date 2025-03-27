@@ -1,66 +1,69 @@
-// Ambil elemen DOM
-const form = document.getElementById("schedule-form");
-const scheduleBody = document.getElementById("schedule-body");
 
-// Fungsi untuk menambah baris ke tabel
-function addRowToTable(activity) {
-    const row = document.createElement("tr");
+// Versi ekspor Excel!
+let totalPendapatan = 0;
+const dataRekap = [];
 
-    row.innerHTML = `
-        <td>${activity.time}</td>
-        <td>${activity.activity}</td>
-        <td>${activity.deadline || "-"}</td>
-        <td class="${
-            activity.priority === "high"
-                ? "high-priority"
-                : activity.priority === "medium"
-                ? "medium-priority"
-                : "low-priority"
-        }">
-            ${activity.priority === "high" ? "Tinggi" : activity.priority === "medium" ? "Sedang" : "Rendah"}
-        </td>
-        <td>${activity.notes || "-"}</td>
-    `;
+document.getElementById("kasirForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    scheduleBody.appendChild(row);
-}
+  const kasir = document.getElementById("namaKasir").value;
+  const nama = document.getElementById("namaPelanggan").value;
+  const layanan = document.getElementById("layanan").value;
+  const diskon = parseFloat(document.getElementById("diskon").value);
+  const noWA = document.getElementById("nomorWA").value;
 
-// Fungsi untuk menyimpan data ke Local Storage
-function saveToLocalStorage(activity) {
-    let schedule = JSON.parse(localStorage.getItem("schedule")) || [];
-    schedule.push(activity);
-    localStorage.setItem("schedule", JSON.stringify(schedule));
-}
+  let harga = 0;
+  switch (layanan) {
+    case "Potong Rambut": harga = 30000; break;
+    case "Cukur Jenggot": harga = 15000; break;
+    case "Cat Rambut": harga = 70000; break;
+    case "Hair Spa": harga = 50000; break;
+    default: harga = 0;
+  }
 
-// Fungsi untuk memuat data dari Local Storage
-function loadSchedule() {
-    const schedule = JSON.parse(localStorage.getItem("schedule")) || [];
-    schedule.forEach(addRowToTable);
-}
+  const potongan = (diskon / 100) * harga;
+  const total = harga - potongan;
+  totalPendapatan += total;
 
-// Fungsi untuk menangani submit form
-function addSchedule(event) {
-    event.preventDefault();
+  const isiStruk = 
+    "=== STRUK BARBERSHOP ===\n" +
+    `Nama Pelanggan : ${nama}\n` +
+    `Layanan        : ${layanan}\n` +
+    `Harga          : Rp${harga.toLocaleString()}\n` +
+    `Diskon         : ${diskon}%\n` +
+    `Total Bayar    : Rp${total.toLocaleString()}\n` +
+    `Kasir          : ${kasir}\n` +
+    "=========================";
 
-    // Ambil nilai input
-    const time = document.getElementById("time").value;
-    const activity = document.getElementById("activity").value;
-    const deadline = document.getElementById("deadline").value || "-";
-    const priority = document.getElementById("priority").value;
-    const notes = document.getElementById("notes").value || "-";
+  document.getElementById("struk").innerText = isiStruk;
+  document.getElementById("rekap").innerText = 
+    `💼 Total Pendapatan Hari Ini: Rp${totalPendapatan.toLocaleString()}`;
 
-    const newActivity = { time, activity, deadline, priority, notes };
+  // Simpan ke rekap data
+  dataRekap.push({
+    "Waktu": new Date().toLocaleString(),
+    "Kasir": kasir,
+    "Pelanggan": nama,
+    "Layanan": layanan,
+    "Harga (Rp)": harga,
+    "Diskon (%)": diskon,
+    "Total (Rp)": total
+  });
 
-    // Simpan ke Local Storage
-    saveToLocalStorage(newActivity);
+  // Kirim ke WA pelanggan
+  const pesanWA = encodeURIComponent(isiStruk);
+  const urlWA = `https://wa.me/${noWA}?text=${pesanWA}`;
+  window.open(urlWA, "_blank");
+});
 
-    // Tambahkan ke tabel
-    addRowToTable(newActivity);
-
-    // Reset form
-    form.reset();
-}
-
-// Event listeners
-document.addEventListener("DOMContentLoaded", loadSchedule);
-form.addEventListener("submit", addSchedule);
+// Tombol export ke Excel
+document.getElementById("exportBtn").addEventListener("click", function () {
+  if (dataRekap.length === 0) {
+    alert("Belum ada transaksi hari ini.");
+    return;
+  }
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(dataRekap);
+  XLSX.utils.book_append_sheet(wb, ws, "Rekap Hari Ini");
+  XLSX.writeFile(wb, "rekap_barbershop_hari_ini.xlsx");
+});
