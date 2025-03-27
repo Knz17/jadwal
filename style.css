@@ -57,3 +57,10 @@ button:hover {
   font-family: monospace;
   white-space: pre-wrap;
 }
+
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+}
